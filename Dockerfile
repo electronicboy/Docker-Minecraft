@@ -1,19 +1,22 @@
-# Minimal Minecraft Docker container for Pterodactyl Panel
-FROM frolvlad/alpine-oraclejdk8:cleaned
+# +-----------------------------------+
+# | Official Pterodactyl Docker Image |
+# |         Minecraft: Spigot         |
+# +-----------------------------------+
+# |       https://pterodactyl.io      |
+# +-----------------------------------+
+FROM openjdk:8-jdk-alpine
 
-MAINTAINER Michael Parker, <parkervcp+docker@gmail.com>
+MAINTAINER Pterodactyl Software, <support@pterodactyl.io>
 
-RUN apk update \
-    && apk upgrade \
-    && apk add --no-cache --update curl ca-certificates openssl perl \
-    && adduser -D -h /home/container container
+RUN app update \
+    && apk add curl git tar \
+    && adduser --disabled-password --home /home/container --gecos "" container \
 
 USER container
-ENV  USER container
-ENV  HOME /home/container
+ENV HOME=/home/container USER=container
 
 WORKDIR /home/container
 
-COPY ./start.sh /start.sh
+COPY entry.sh /entry.sh
 
-CMD ["/bin/ash", "/start.sh"]
+CMD ["/bin/bash", "/entry.sh"]
