@@ -4,19 +4,21 @@
 # +-----------------------------------+
 # |       https://pterodactyl.io      |
 # +-----------------------------------+
-FROM openjdk:8-jdk-alpine
+FROM java:openjdk-8-jre-alpine
 
-MAINTAINER Pterodactyl Software, <support@pterodactyl.io>
+MAINTAINER parkervcp, <parker@parkervcp.com>
 
-RUN app update \
-    && apk add curl git tar \
-    && adduser --disabled-password --home /home/container --gecos "" container \
+COPY ./entry.sh /entry.sh
+
+RUN adduser -D -h /home/container container \
+ && apk update \
+ && apk add curl \
+ && chmod +x /entry.sh
 
 USER container
+
 ENV HOME=/home/container USER=container
 
 WORKDIR /home/container
 
-COPY entry.sh /entry.sh
-
-CMD ["/bin/bash", "/entry.sh"]
+CMD ["/bin/ash", "/entry.sh"] 
