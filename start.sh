@@ -11,6 +11,12 @@ else
     if [ -z "$DL_PATH" ] || [ "$DL_PATH" == "build" ]; then
         echo "Building Spigot... This could take awhile."
 
+        # if this folder exists, remove it. Only real case this folder should be here is a broken build...
+        if [ -d "/home/container/.tmp-build" ]; then
+            rm -rf /home/container/.tmp-build
+        fi
+
+
         mkdir -p /home/container/.tmp-build
         cd /home/container/.tmp-build
 
