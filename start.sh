@@ -14,8 +14,9 @@ else
         mkdir -p /home/container/.tmp-build
         cd /home/container/.tmp-build
 
-	# set user.home explicity, Java in docker is not fetching this variable properly
-	export _JAVA_OPTIONS=-Duser.home=/home/container/.tmp-build
+        # set user.home explicity, Java in docker is not fetching this variable properly
+        export _JAVA_OPTIONS=-Duser.home=/home/container/.tmp-build
+
         curl -sS -o BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
         git config --global --unset core.autocrlf
         java -jar BuildTools.jar --rev ${DL_VERSION}
@@ -25,7 +26,8 @@ else
         if [ $? -eq 0 ]; then
             rm -rf /home/container/.tmp-build
         fi
-	unset _JAVA_OPTIONS
+
+        unset _JAVA_OPTIONS
         cd /home/container
     else
         # Download the file
